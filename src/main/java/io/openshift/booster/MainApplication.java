@@ -23,15 +23,15 @@ public class MainApplication extends AbstractVerticle {
     // Create Router
     Router router = createRouter();
 
-    List<Completable> futures = new ArrayList<>();
+    List<Completable> completables = new ArrayList<>();
 
     // Initialize all Router Consumers
     for (RouterConsumer consumer : getRouterConsumers()) {
       consumer.accept(router);
-      futures.add(consumer.start());
+      completables.add(consumer.start());
     }
 
-    Completable.concat(futures)
+    Completable.concat(completables)
       .subscribe(() ->
                    vertx.createHttpServer()
                      .requestHandler(router::accept)
@@ -58,8 +58,8 @@ public class MainApplication extends AbstractVerticle {
 
   private Collection<RouterConsumer> getRouterConsumers() {
     return Arrays.asList(
-      new HttpApplication(vertx),
-      new CrudApplication(vertx)
+      new CrudApplication(vertx),
+      new HttpApplication(vertx)
     );
   }
 }

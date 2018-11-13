@@ -2,6 +2,7 @@ package io.openshift.booster;
 
 import io.openshift.booster.database.CrudApplication;
 import io.openshift.booster.http.HttpApplication;
+import io.vertx.core.Future;
 import io.vertx.rxjava.core.AbstractVerticle;
 import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.handler.BodyHandler;
@@ -14,7 +15,7 @@ import rx.Observable;
 public class MainApplication extends AbstractVerticle {
 
   @Override
-  public void start() {
+  public void start(final Future future) {
     // Create Router
     Router router = createRouter();
 
@@ -24,12 +25,15 @@ public class MainApplication extends AbstractVerticle {
         return r.start();
       })
       .toCompletable()
+      .doOnCompleted(() -> future.complete())
+      .doOnError(throwable -> future.fail(throwable))
       .subscribe(() ->
                    vertx.createHttpServer()
                      .requestHandler(router::accept)
                      .rxListen(config().getInteger("http.port", 8080))
                      .subscribe(httpServer ->
                                   System.out.println("Server started on port " + httpServer.actualPort()))
+
       );
   }
 

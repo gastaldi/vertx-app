@@ -1,0 +1,9 @@
+
+isquid:S1192S"MDefine a constant instead of duplicating this literal "Content-Type" 4 times.(¹²ƒÓûÿÿÿÿ
+Isquid:S16119"2Remove the parentheses around the "http" parameter(Îíë¼
+_squid:S1192I"HDefine a constant instead of duplicating this literal "fruitId" 5 times.(Õ“šŒ
+lsquid:S1192 "PDefine a constant instead of duplicating this literal "/api/fruits/:id" 4 times.(¬Â­ÿøÿÿÿÿ
+O
+squid:S1069"9Replace this use of System.out or System.err by a logger.(Îíë¼
+lsquid:S1192v"PDefine a constant instead of duplicating this literal "invalid payload" 4 times.(ïĞãƒÿÿÿÿÿ
+msquid:S1192S"QDefine a constant instead of duplicating this literal "application/json" 4 times.(¹²ƒÓûÿÿÿÿ

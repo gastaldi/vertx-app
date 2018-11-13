@@ -1,0 +1,16 @@
+{
+  "name": "george",
+  "shared": {
+    "runtime": "vertx"
+  },
+  "capabilities": [
+    {
+      "module": "rest"
+    },
+    {
+      "module": "database"
+    }
+  ],
+  "projectName": "george",
+  "gitRepository": "george"
+}

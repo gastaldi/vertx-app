@@ -1,5 +1,7 @@
 package io.openshift.booster;
 
+import java.util.Objects;
+
 import io.openshift.booster.database.CrudApplication;
 import io.openshift.booster.http.HttpApplication;
 import io.vertx.core.Future;
@@ -20,6 +22,7 @@ public class MainApplication extends AbstractVerticle {
     Router router = createRouter();
 
     Observable.from(getRouterConsumers())
+      .filter(Objects::nonNull)
       .flatMapCompletable(r -> {
         r.accept(router);
         return r.start();
@@ -53,8 +56,11 @@ public class MainApplication extends AbstractVerticle {
 
   private RouterConsumer[] getRouterConsumers() {
     return new RouterConsumer[]{
+      // TODO: Add new RouteConsumers here
       new CrudApplication(vertx),
-      new HttpApplication(vertx)
+      new HttpApplication(vertx),
+      // This is to ease the code generation
+      null
     };
   }
 }

@@ -5,14 +5,14 @@ import java.util.NoSuchElementException;
 import io.openshift.booster.RouterConsumer;
 import io.openshift.booster.database.service.Store;
 import io.openshift.booster.database.service.impl.JdbcProductStore;
+import io.reactivex.Completable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.core.http.HttpServerResponse;
-import io.vertx.rxjava.ext.jdbc.JDBCClient;
-import io.vertx.rxjava.ext.web.Router;
-import io.vertx.rxjava.ext.web.RoutingContext;
-import rx.Completable;
+import io.vertx.reactivex.core.Vertx;
+import io.vertx.reactivex.core.http.HttpServerResponse;
+import io.vertx.reactivex.ext.jdbc.JDBCClient;
+import io.vertx.reactivex.ext.web.Router;
+import io.vertx.reactivex.ext.web.RoutingContext;
 
 import static io.openshift.booster.database.Errors.error;
 

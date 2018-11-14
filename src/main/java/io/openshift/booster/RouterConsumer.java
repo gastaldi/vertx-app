@@ -1,10 +1,12 @@
 package io.openshift.booster;
 
+import io.reactivex.Completable;
+import io.vertx.reactivex.core.Vertx;
+import io.vertx.reactivex.ext.web.Router;
+
 import java.util.function.Consumer;
 
-import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.ext.web.Router;
-import rx.Completable;
+
 
 public abstract class RouterConsumer implements Consumer<Router> {
 
@@ -14,6 +16,8 @@ public abstract class RouterConsumer implements Consumer<Router> {
     this.vertx = vertx;
   }
 
-  public abstract Completable start();
+  public Completable start() {
+    return Completable.complete();
+  }
 
 }

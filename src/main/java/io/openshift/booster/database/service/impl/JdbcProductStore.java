@@ -1,22 +1,21 @@
 package io.openshift.booster.database.service.impl;
 
+import io.openshift.booster.database.service.Store;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLOptions;
-import io.vertx.rxjava.ext.jdbc.JDBCClient;
-import io.vertx.rxjava.ext.sql.SQLRowStream;
-import io.openshift.booster.database.service.Store;
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
+import io.vertx.reactivex.ext.jdbc.JDBCClient;
+import io.vertx.reactivex.ext.sql.SQLRowStream;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
  * The implementation of the store.
- *
  */
 public class JdbcProductStore implements Store {
 
@@ -39,7 +38,7 @@ public class JdbcProductStore implements Store {
   @Override
   public Single<JsonObject> create(JsonObject item) {
     Optional<Exception> error = validateRequestBody(item);
-    if (validateRequestBody(item).isPresent()){
+    if (validateRequestBody(item).isPresent()) {
       return Single.error(error.get());
     }
 
@@ -57,7 +56,7 @@ public class JdbcProductStore implements Store {
   @Override
   public Completable update(long id, JsonObject item) {
     Optional<Exception> error = validateRequestBody(item);
-    if (validateRequestBody(item).isPresent()){
+    if (validateRequestBody(item).isPresent()) {
       return Completable.error(error.get());
     }
 
@@ -80,7 +79,7 @@ public class JdbcProductStore implements Store {
       return Optional.of(new IllegalArgumentException("The item must not be null"));
     }
     if (!(item.getValue("name") instanceof String) || item.getString("name") == null
-        || item.getString("name").isEmpty()) {
+      || item.getString("name").isEmpty()) {
       return Optional.of(new IllegalArgumentException("The name is required!"));
     }
     if (!(item.getValue("stock") instanceof Integer) || item.getInteger("stock") < 0) {
@@ -93,12 +92,12 @@ public class JdbcProductStore implements Store {
   }
 
   @Override
-  public Observable<JsonObject> readAll() {
+  public Flowable<JsonObject> readAll() {
     return db.rxGetConnection()
-      .flatMapObservable(conn ->
+      .flatMapPublisher(conn ->
         conn
           .rxQueryStream(SELECT_ALL)
-          .flatMapObservable(SQLRowStream::toObservable)
+          .flatMapPublisher(SQLRowStream::toFlowable)
           .doAfterTerminate(conn::close))
       .map(array ->
         new JsonObject()
